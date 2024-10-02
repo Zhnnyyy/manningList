@@ -93,8 +93,3 @@ h3 {
 .data-table thead {
     background-color: #f3f4f6;
 }
-
-.data-table th,
-.data-table td {
-    padding: 12px 15px;
-    text-align: left
