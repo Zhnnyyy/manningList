@@ -1,14 +1,11 @@
 <?php
 
-if ($_SERVER['SERVER_NAME'] == 'localhost') {
-	/** database config **/
-	define('DBNAME', 'manninglist');
-	define('DBHOST', 'localhost');
-	define('DBUSER', 'root');
-	define('DBPASS', '');
-	define("ROOT", "http://localhost/manninglist");
-	define("ROOT_CSS", "/manninglist/public/assets/css/");
-	define("ROOT_JS", "/manninglist/public/assets/js/");
-
-
-}
+/** database config **/
+define("DB_NAME", "manninglist");
+define("DB_HOST", "localhost");
+define("DB_USER", "root");
+define("DB_PASSWORD", "");
+define("ROOT", "http://192.168.0.129/manninglist");
+define("ROOT_CSS", "/manninglist/public/assets/css/");
+define("ROOT_JS", "/manninglist/public/assets/js/");
+define("ROOT_IMG", "/manninglist/public/assets/img/");

@@ -1,14 +1,20 @@
-  <div class="login-container">
-        <form class="login-form">
-            <h2>Login</h2>
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Enter your username" required>
+<div class="container">
+    <form id="frm-login">
+        <img src="<?= ROOT_IMG ?>bg_old.webp" class="banner">
+        <div class="inputs">
+            <div class="frm-grp">
+                <label for="">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter your username"
+                    value="administrator">
             </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
+            <div class="frm-grp">
+                <label for="">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password"
+                    value="Lbrdc2021.">
             </div>
-            <button type="submit" class="btn">Login</button>
-        </form>
-    </div>
+            <div class="frm-grp">
+                <button type="submit">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
