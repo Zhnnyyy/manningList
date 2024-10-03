@@ -55,6 +55,8 @@ const forms = () => {
         e.preventDefault();
         const sheetName = $("#sheetName").val()
         const file = $("#importFile")[0].files[0]
+        const startingRow = $("#startingRow").val()
+        const endingRow = $("#endingRow").val()
         if (!sheetName || !file) {
             swal.fire({
                 title: "warning",
@@ -84,12 +86,9 @@ const forms = () => {
                 return;
             }
 
+
             sheet = workbook.Sheets[sheetName];
-            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-            console.log(jsonData);
-
-            return;
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", range: "A6:K114" });
             //validate excel data
             if (jsonData.length === 0) {
                 swal.fire({
@@ -100,29 +99,52 @@ const forms = () => {
 
                 return;
             }
-            console.log(ExcelValidation(jsonData));
+
+            const keys = jsonData[0];
+            const values = jsonData.slice(1);
+            let newData = []
+            for (let i = 0; i < values.length; i++) {
+                let obj = {}
+                for (let j = 0; j < keys.length; j++) {
+                    obj[keys[j]] = values[i][j]
+                }
+                newData.push(obj)
+            }
+
+
+            // console.log(newData);
+
+
+
+
+            // console.log(ExcelValidation(jsonData));
             // return;
             const employee = {
-                "employees": JSON.stringify(ExcelValidation(jsonData))
-
+                "employees": newData,
+                "keys": keys,
+                "values": values
             };
-            _executeRequest("dashboard/import", "POST", employee, (res) => {
-                if (!res.Error && !res.result.Error) {
-                    swal.fire({
-                        title: "Success",
-                        text: "Import Success",
-                        icon: "success",
-                    }).then((res) => {
-                        window.location.reload();
-                    })
 
-                } else {
-                    swal.fire({
-                        title: "Error",
-                        text: "Internal Server Error",
-                        icon: "error",
-                    })
-                }
+            console.log(employee);
+            return;
+            _executeRequest("dashboard/import", "POST", employee, (res) => {
+                console.log(res);
+                // if (!res.Error && !res.result.Error) {
+                //     swal.fire({
+                //         title: "Success",
+                //         text: "Import Success",
+                //         icon: "success",
+                //     }).then((res) => {
+                //         window.location.reload();
+                //     })
+
+                // } else {
+                //     swal.fire({
+                //         title: "Error",
+                //         text: "Internal Server Error",
+                //         icon: "error",
+                //     })
+                // }
             })
         };
         reader.readAsArrayBuffer(file);

@@ -27,9 +27,11 @@ class Dashboard extends Controller
         $jsonData = file_get_contents("php://input");
         $POST = json_decode($jsonData, true);
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $result = Employee::importEmployees(json_decode($_POST['employees'], true));
-            // $result = Employee::importEmployees($POST['employees']);
-            echo $result;
+            var_dump($_POST);
+
+            // $result = Employee::importEmployees(json_decode($_POST['employees'], true));
+            // // $result = Employee::importEmployees($POST['employees']);
+            // echo $result;
         }
         exit();
     }
@@ -48,6 +50,14 @@ class Dashboard extends Controller
             header("location:/manninglist/public/");
         }
         exit();
-
     }
+
+    public function checkFields()
+    {
+        $db = new Database();
+        $columns = $db->checkFields();
+    }
+
+
+
 }

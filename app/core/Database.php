@@ -41,4 +41,17 @@ class Database
         }
     }
 
+
+    public function checkFields($keys = "")
+    {
+        $query = "SHOW COLUMNS FROM " . DB_NAME . "." . manningListTable;
+        $result = $this->_executeQuery($query);
+        // return $result['result'][0]['Field'];
+        $data = [];
+        foreach ($result['result'] as $row) {
+            array_push($data, $row['Field']);
+        }
+        return $data;
+    }
+
 }

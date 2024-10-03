@@ -7,6 +7,16 @@
                 value="Janitorial Head Office">
         </div>
         <div class="row mb-3">
+            <div class="col-6">
+                <input type="number" class="form-control" id="startingRow" placeholder="Table starting row" value="6"
+                    required>
+            </div>
+            <div class="col-6">
+                <input type="number" class="form-control" id="endingRow" placeholder="Table ending row" value="114"
+                    required>
+            </div>
+        </div>
+        <div class="row mb-3">
             <input class="form-control" id="importFile" type="file"
                 accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
         </div>
