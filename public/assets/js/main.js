@@ -1,5 +1,5 @@
 $(() => {
-    new DataTable("#datatable", {
-        scrollX: true,
-    })
-})
+  new DataTable("#datatable", {
+    scrollX: true,
+  });
+});

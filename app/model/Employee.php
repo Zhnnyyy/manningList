@@ -7,19 +7,19 @@ class Employee
     {
         $db = new Database();
         $fields = $db->checkFields();
-        $acceptedFields = [];
+        $acceptedFields = ["Name"];
         $employee = [];
+
         foreach ($fields as $val) {
-            if ($val != "emp_id" && $val != "emp_created" && $val != "emp_timestamp") {
-                $acceptedFields[] = $val == "emp_status";
-                // $employee[] = $val;
+            if ($val != "emp_id" && $val != "emp_created" && $val != "emp_timestamp" && $val != "FirstName" && $val != "MiddleName" && $val != "LastName") {
+                $acceptedFields[] = $val == "emp_status" ? "Status" : $val;
+                $employee[] = $val;
             }
         }
 
-        $query = "select " . implode(", ", $employee) . " from employee_tbl";
+        $query = "select concat(LastName,', ', FirstName, ' ', MiddleName) as Name," . implode(", ", $employee) . " from employee_tbl order by IdNumber desc";
         $result = $db->_executeQuery($query);
-        return ["headers" => $acceptedFields];
-        exit();
+        return ["headers" => $acceptedFields, "employee" => $result['result']];
     }
 
 

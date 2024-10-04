@@ -26,11 +26,11 @@ class Dashboard extends Controller
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             require "../app/view/404.view.php";
         }
-        // $jsonData = file_get_contents("php://input");
-        // $POST = json_decode($jsonData, true);
+        $jsonData = file_get_contents("php://input");
+        $POST = json_decode($jsonData, true);
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $employees = $_POST['employees'];
-            $tableFields = $_POST['keys'];
+            $employees = json_decode($_POST['employees'], true);
+            $tableFields = json_decode($_POST['keys']);
             $currentFields = $this->checkFields();
             $finalColumn = [];
             foreach ($tableFields as $val) {
@@ -46,10 +46,11 @@ class Dashboard extends Controller
             }
 
             $result = Employee::importEmployees($employees);
-            echo json_encode(array("result" => $result));
+            echo $result;   
         }
         exit();
     }
+
 
 
     public function logout()
