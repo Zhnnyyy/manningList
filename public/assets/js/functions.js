@@ -31,7 +31,7 @@ export const hostname = () => {
     return "http://" + window.location.hostname + "/manninglist/public/";
 }
 
-export const _splitName = (fullName, row) => {
+export const _splitName = (fullName) => {
     if (!fullName) {
         console.log("Name is missing");
         return { Error: "Name is missing" };
@@ -39,7 +39,7 @@ export const _splitName = (fullName, row) => {
 
     let name = fullName.split(', ');
     if (name.length < 2) {
-        return { Error: `Invalid name format->${fullName} at row->${row + 1}. It should be (LASTNAME, FIRSTNAME MIDDLENAME)` };
+        return { Error: `Invalid name format->${fullName}. It should be (LASTNAME, FIRSTNAME MIDDLENAME)` };
     }
     let lastName = name[0];
     let otherNames = name[1].split(' ');
@@ -54,13 +54,17 @@ export const _splitName = (fullName, row) => {
     }
 
     return {
-        firstName: firstName.toUpperCase(),
-        middleName: middleName.toUpperCase(),
-        lastName: lastName.toUpperCase()
+        FirstName: firstName.toUpperCase(),
+        MiddleName: middleName.toUpperCase(),
+        LastName: lastName.toUpperCase()
     };
 }
 
-
+export const sanitizeHeader = (name) => {
+    return name.split(' ').map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join('');
+}
 
 
 export const ExcelValidation = (emp) => {
@@ -95,7 +99,7 @@ export const ExcelValidation = (emp) => {
     const filteredEmp = newEmp.filter((item, index, self) => {
         return self.findIndex((t) => t.emp_Id === item.emp_Id) === index;
     });
-    // console.log(filteredEmp);
+    // console.log(filteredEmp);    
     return filteredEmp;
 }
 

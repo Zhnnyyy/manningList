@@ -10,7 +10,7 @@
         <img src="https://images.pexels.com/photos/28627459/pexels-photo-28627459/free-photo-of-black-and-white-cat-by-maiden-s-tower-istanbul.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
             alt="mycat">
         <button class="btn btn-danger" name="logoutBtn" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Logout</button>
+            data-bs-target="#logoutModal">Logout</button>
 
     </div>
 

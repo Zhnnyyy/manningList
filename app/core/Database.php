@@ -42,7 +42,7 @@ class Database
     }
 
 
-    public function checkFields($keys = "")
+    public function checkFields()
     {
         $query = "SHOW COLUMNS FROM " . DB_NAME . "." . manningListTable;
         $result = $this->_executeQuery($query);

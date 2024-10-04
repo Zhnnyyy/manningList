@@ -6,12 +6,24 @@ class Employee
     static function allEmployee()
     {
         $db = new Database();
-        $query = "SELECT A.emp_id, A.emp_fname, A.emp_mname, A.emp_lname, A.emp_sfname, A.emp_status, A.emp_created, A.assignment, A.emp_position, B.id, B.region, B.rate  FROM employee_tbl as A INNER JOIN region as B ON B.id = A.region order by A.emp_id DESC";
-        return $db->_executeQuery($query);
+        $fields = $db->checkFields();
+        $acceptedFields = [];
+        $employee = [];
+        foreach ($fields as $val) {
+            if ($val != "emp_id" && $val != "emp_created" && $val != "emp_timestamp") {
+                $acceptedFields[] = $val == "emp_status";
+                // $employee[] = $val;
+            }
+        }
+
+        $query = "select " . implode(", ", $employee) . " from employee_tbl";
+        $result = $db->_executeQuery($query);
+        return ["headers" => $acceptedFields];
+        exit();
     }
 
 
-    static function importEmployees($employee)
+    static function importEmployees_old($employee)
     {
         $response = array("Error" => true);
         $db = new Database();
@@ -50,7 +62,69 @@ class Employee
     }
 
 
+    static function importEmployees($employee)
+    {
+        $response = array("Error" => true);
+        $add_Status = 1;
+        $add_Created = date("Y-m-d");
+        $db = new Database();
+        $instance = $db::Instance();
+        try {
+            $instance->begin_transaction();
+            foreach ($employee as $val) {
+                $keys = array_keys($val);
+                $values = array_values($val);
+                $params = [$add_Status, $add_Created];
+                $column = ["emp_status", "emp_created"];
+                $qmark = ["?", "?"];
+                for ($i = 0; $i < count($keys); $i++) {
+                    $params[] = $values[$i];
+                    $column[] = $keys[$i];
+                    $qmark[] = "?";
+                }
+                // var_dump($qmark);
+                $query = "insert into employee_tbl (" . implode(",", $column) . ") values(" . implode(",", $qmark) . ")";
+                $index = array_search("IdNumber", $keys);
+                $idNumber = $values[$index];
 
+                if (!self::checkDuplicate($idNumber)) {
+                    $insert = $db->_executePostQuery($query, $params);
+                    if ($insert['Error']) {
+                        $instance->rollback();
+                        $response['Error'] = true;
+                        $response['msg'] = $insert['result'];
+                        return json_encode($response);
+                    }
+                }
+            }
+            $instance->commit();
+            $response["Error"] = false;
+            $response["msg"] = "Employees Imported Successfully";
+            return json_encode($response);
+        } catch (Exception $e) {
+            $instance->rollback();
+            $response['Error'] = true;
+            $response['msg'] = $e->getMessage();
+            return json_encode($response);
+        }
+
+    }
+
+
+    //Add dynamic column directly in database
+    static function alterDynamicTable($headers)
+    {
+        $db = new Database();
+        $columnName = [];
+        foreach ($headers as $val) {
+            $columnName[] = "ADD COLUMN {$val} varchar(255)";
+        }
+        $tbl = "ALTER TABLE employee_tbl " . implode(", ", $columnName);
+        $query = rtrim($tbl, ",");
+        $result = $db->_executePostQuery($query);
+        return $result;
+
+    }
 
     // Get the ID of region base on the given value
     private static function getRegionID($regionName)
@@ -65,10 +139,9 @@ class Employee
     private static function checkDuplicate($emp_number)
     {
         $db = new Database();
-        $result = $db->_executeQuery("select emp_id from employee_tbl where emp_number='$emp_number'");
+        $result = $db->_executeQuery("select * from employee_tbl where IdNumber='$emp_number'");
+        // return $result;
         return $result['length'] == 1 ? true : false;
 
     }
-
-
 }

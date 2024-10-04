@@ -16,6 +16,11 @@ form{
     height: 200px;
 }
 
+.table-container{
+    width: 98%;
+    /* overflow: auto; */
+}
+
 table{
     width: 100%;
 }

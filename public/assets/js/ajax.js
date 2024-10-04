@@ -1,4 +1,4 @@
-import { _executeRequest, hostname, ExcelValidation } from "./functions.js";
+import { _executeRequest, hostname, sanitizeHeader, _splitName } from "./functions.js";
 $(() => {
     forms();
 })
@@ -55,8 +55,7 @@ const forms = () => {
         e.preventDefault();
         const sheetName = $("#sheetName").val()
         const file = $("#importFile")[0].files[0]
-        const startingRow = $("#startingRow").val()
-        const endingRow = $("#endingRow").val()
+        const range = $("#range").val()
         if (!sheetName || !file) {
             swal.fire({
                 title: "warning",
@@ -88,7 +87,9 @@ const forms = () => {
 
 
             sheet = workbook.Sheets[sheetName];
-            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", range: "A6:K114" });
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", range: range });
+            // console.log(jsonData);
+            // return;
             //validate excel data
             if (jsonData.length === 0) {
                 swal.fire({
@@ -106,45 +107,59 @@ const forms = () => {
             for (let i = 0; i < values.length; i++) {
                 let obj = {}
                 for (let j = 0; j < keys.length; j++) {
-                    obj[keys[j]] = values[i][j]
+                    if (keys[j] != 'No.') {
+                        if (keys[j] != "Employee Name") {
+                            obj[sanitizeHeader(keys[j])] = values[i][j]
+                        } else {
+                            const customName = _splitName(values[i][j])
+                            obj["FirstName"] = customName.FirstName
+                            obj["MiddleName"] = customName.MiddleName
+                            obj["LastName"] = customName.LastName
+
+                        }
+                    }
                 }
                 newData.push(obj)
             }
 
 
-            // console.log(newData);
+            let newkeys = ["FirstName", "MiddleName", "Lastname"];
+            keys.forEach(oldKeys => {
+                if (oldKeys != "No." && oldKeys != "Employee Name") {
 
-
-
+                    newkeys.push(sanitizeHeader(oldKeys))
+                }
+            });
 
             // console.log(ExcelValidation(jsonData));
+            // console.log(newData);
             // return;
-            const employee = {
+
+            const employees = {
                 "employees": newData,
-                "keys": keys,
-                "values": values
+                "keys": newkeys,
             };
+            // console.log(newData.length);
+            // return;
 
-            console.log(employee);
-            return;
-            _executeRequest("dashboard/import", "POST", employee, (res) => {
+            _executeRequest("dashboard/import", "POST", employees, (res) => {
                 console.log(res);
-                // if (!res.Error && !res.result.Error) {
-                //     swal.fire({
-                //         title: "Success",
-                //         text: "Import Success",
-                //         icon: "success",
-                //     }).then((res) => {
-                //         window.location.reload();
-                //     })
+                if (!res.Error && !res.result.Error) {
+                    swal.fire({
+                        title: "Success",
+                        text: "Import Success",
+                        icon: "success",
+                    }).then((res) => {
+                        window.location.reload();
+                    })
 
-                // } else {
-                //     swal.fire({
-                //         title: "Error",
-                //         text: "Internal Server Error",
-                //         icon: "error",
-                //     })
-                // }
+                } else {
+                    swal.fire({
+                        title: "Error",
+                        text: "Internal Server Error",
+                        icon: "error",
+                    })
+                }
             })
         };
         reader.readAsArrayBuffer(file);

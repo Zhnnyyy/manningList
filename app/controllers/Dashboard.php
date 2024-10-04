@@ -14,9 +14,11 @@ class Dashboard extends Controller
         $data['title'] = "Dashboard | Manninglist";
         $data['styles'] = ['<link rel="stylesheet" href="' . ROOT_CSS . 'dashboard.css">'];
         $data['script'] = ['<script src="' . ROOT_JS . 'xlsx.full.min.js"></script>'];
-        $data['employee'] = Employee::allEmployee();
-        $this->view('/dashboard', $data);
+        $data['table'] = Employee::allEmployee();
+        $this->view('/dashboard', data: $data);
     }
+
+
 
 
     public function import()
@@ -24,14 +26,27 @@ class Dashboard extends Controller
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             require "../app/view/404.view.php";
         }
-        $jsonData = file_get_contents("php://input");
-        $POST = json_decode($jsonData, true);
+        // $jsonData = file_get_contents("php://input");
+        // $POST = json_decode($jsonData, true);
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            var_dump($_POST);
+            $employees = $_POST['employees'];
+            $tableFields = $_POST['keys'];
+            $currentFields = $this->checkFields();
+            $finalColumn = [];
+            foreach ($tableFields as $val) {
+                if (!in_array($val, $currentFields)) {
+                    $finalColumn[] = $val;
+                }
+            }
+            if (!empty($finalColumn)) {
+                $result = Employee::alterDynamicTable($finalColumn);
+                if ($result['Error']) {
+                    return $result;
+                }
+            }
 
-            // $result = Employee::importEmployees(json_decode($_POST['employees'], true));
-            // // $result = Employee::importEmployees($POST['employees']);
-            // echo $result;
+            $result = Employee::importEmployees($employees);
+            echo json_encode(array("result" => $result));
         }
         exit();
     }
@@ -39,10 +54,8 @@ class Dashboard extends Controller
 
     public function logout()
     {
-        // var_dump($_SESSION);
         $user = new Users();
         $result = $user->updateSession(0, $_SESSION['USER'][0]['admin_id']);
-        // var_dump($result['result']);
         if (!$result['Error'] && !$result['result']) {
             session_start();
             session_unset();
@@ -55,7 +68,7 @@ class Dashboard extends Controller
     public function checkFields()
     {
         $db = new Database();
-        $columns = $db->checkFields();
+        return $db->checkFields();
     }
 
 
