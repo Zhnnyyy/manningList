@@ -34,11 +34,11 @@ class Users
                 $response['Error'] = true;
                 $response['msg'] = $result['result'];
             }
-            $updateSession = $this->updateSession(1, $response['id']);
-            if ($updateSession['Error']) {
-                $instance->rollback();
-                exit();
-            }
+            // $updateSession = $this->updateSession(1, $response['id']);
+            // if ($updateSession['Error']) {
+            //     $instance->rollback();
+            //     exit();
+            // }
             $instance->commit();
             echo json_encode($response);
         } catch (Exception $e) {

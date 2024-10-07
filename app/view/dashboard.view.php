@@ -1,48 +1,19 @@
-<div class="container">
-    <?php //print_r($data['table']['employee'][0]["emp_status"]) ?>
-    <form id="uploadFrm">
-        <!-- <input type="file" name="" id=""> -->
-        <div class="row mb-3">
-            <input type="text" class="form-control" id="sheetName" placeholder="Sheet name" required
-                value="Janitorial Head Office">
-        </div>
-        <div class="row mb-3">
-            <input type="text" class="form-control" id="range" placeholder="Table Range" value="A6:K114" required>
-        </div>
-        <div class="row mb-3">
-            <input class="form-control" id="importFile" type="file"
-                accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
-    </form>
+<?php include 'partials/sidebar.php' ?>
+<div class="main-container .main-wided" id="main-container">
+<div class="dashboard-container">
+    <h4 class="title">Dashboard</h4>
+    <main>
+        <div class="left-container">
+            <div class="timebox" style="background: url(<?= ROOT_IMG . "landbank.webp" ?>);     background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;">
 
-    <div class="table-container">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tableFilterModal">
-            Filter Column
-        </button>
-        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <?php foreach ($data['table']['headers'] as $val): ?>
-                                                                    <th><?= $val ?></th>
-                    <?php endforeach; ?>
-                </tr>
-            </thead>
-            <tbody>
-               <?php foreach ($data['table']['employee'] as $emp): ?>
-                                                            <tr>
-                                                                <?php foreach ($data['table']['headers'] as $headers): ?>
-                                                                                                            <td>
-                                                                                                                <?php if ($headers == "Status") {
-                                                                                                                    echo $emp["emp_status"] == "1" ? "Active" : "Inactive";
-                                                                                                                } else {
-                                                                                                                    echo $emp[$headers];
-                                                                                                                } ?>
-                                                                                                            </td>
-                                                                <?php endforeach; ?>
-                                                            </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+            </div>
+        </div>
+ 
+        <div class="right-container">
+
+        </div>
+    </main>
+</div>
 </div>

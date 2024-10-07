@@ -27,21 +27,7 @@
             </div>
             <div class="modal-body">
                 <!-- iterate data -->
-                <?php foreach ($data['thead'] as $val): ?>
-                    <div class="row">
-                        <div class="col">
-                            <div class="input-group mb-3">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" value=""
-                                        aria-label="Checkbox for following text input">
-                                </div>
-                                <input type="text" class="form-control" aria-label="Text input with checkbox"
-                                    value="<?= $val == "emp_status" ? "Status" : $val ?>" readonly>
-                            </div>
-                        </div>
-                    </div>
 
-                <?php endforeach ?>
 
             </div>
             <div class="modal-footer">

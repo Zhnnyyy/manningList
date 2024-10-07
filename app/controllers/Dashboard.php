@@ -46,7 +46,7 @@ class Dashboard extends Controller
             }
 
             $result = Employee::importEmployees($employees);
-            echo $result;   
+            echo $result;
         }
         exit();
     }

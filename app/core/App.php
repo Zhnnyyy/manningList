@@ -7,7 +7,7 @@ class App
 
     private function splitURL()
     {
-        $URL = $_GET['url'] ?? 'Login';
+        $URL = $_GET['url'] ?? 'login';
         $URL = explode("/", trim($URL, "/"));
         return $URL;
     }
@@ -17,7 +17,7 @@ class App
         $URL = $this->splitURL();
         /** select controller **/
         // dd($URL);
-        $filename = "../app/controllers/" . ucfirst($URL[0]) . ".php";
+        $filename = ROOT_CONTROLLER . ucfirst($URL[0]) . ".php";
         if (file_exists($filename)) {
             require $filename;
             $this->controller = ucfirst($URL[0]);

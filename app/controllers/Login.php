@@ -15,6 +15,12 @@ class Login extends Controller
         $this->view('/login', $data);
     }
 
+    public function helloworld()
+    {
+        echo "Hello World";
+        exit();
+    }
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == "GET") {

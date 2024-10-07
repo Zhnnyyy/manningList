@@ -1,49 +1,77 @@
 header {
-        width: 100%;
+        width: calc(100% - 224px);
         height: 70px;
         position: fixed;
         top: 0;
-        background: rgb(31, 219, 97);
-        background: linear-gradient(90deg, rgba(31, 219, 97, 1) 0%, rgba(56, 121, 9, 1) 100%, rgba(0, 36, 2, 1) 100%);
+        margin-left: 224px;
+        background: #019525;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 2% 3%;
-        }
+        padding: 0 20px;
+        transition: .3s ease-in-out;
+}
 
-header .left-container img {
-        width: 60px;
-        object-fit: fill;
-        }
 
 header .left-container {
-        display: flex;
-        gap: 20px;
-        align-items: center;
         color: white;
-        }
+}
 
-header .right-container{
+header .left-container h4 {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .2s ease-in;
+}
+
+header .left-container h4:hover {
+        background: white;
+}
+
+header .left-container h4:hover i {
+        color: black;
+}
+
+header .right-container {
         display: flex;
         gap: 10px;
         align-items: center;
+        border-left: 1px solid white;
 }
-header .right-container img{
+
+header .right-container img {
         width: 40px;
-        height: 40px;
-        border-radius: 50%;
-}
-/* header button{
-        border: none;
-        padding: 5px;
-        border-radius: 5px;
-} */
-
-body{
-        padding-top: 80px;
 }
 
-footer{
+header .right-container {
+        padding-left: 20px;
+}
+
+
+header.wided {
+        width: calc(100% - 100px);
+        margin-left: 100px;
+}
+
+
+body {
+        margin-top: 70px;
+        margin-left: 224px;
+}
+
+
+footer {
+        position: fixed;
+        bottom: 0;
         height: 70px;
-        margin-top: 100px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        box-shadow: 0 -2px 8px 0 rgba(0, 0, 0, 0.2);
+        font-size: 12px;
 }

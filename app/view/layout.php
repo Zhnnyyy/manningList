@@ -7,7 +7,10 @@
         <title><?= $data['title'] ?? "Manning List" ?></title>
         <link rel="stylesheet" href="<?= ROOT_CSS ?>layout.css">
         <link rel="stylesheet" href="<?= ROOT_CSS ?>bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
         <link rel="stylesheet" href="<?= ROOT_CSS ?>dataTables.bootstrap5.css">
+        <link rel="stylesheet" href="<?= ROOT_CSS ?>sidebar.css">
         <?php
         if (isset($data['styles'])) {
                 foreach ($data['styles'] as $style) {
@@ -20,15 +23,18 @@
 <body>
         <?php isset($data['header']) && $data['header'] == 1 ? include 'partials/header.php' : "" ?>
         <?php include $view; ?>
+
+                
         <?php isset($data['footer']) && $data['header'] == 1 ? include 'partials/footer.php' : "" ?>
 
 
         <?php include 'partials/modals.php' ?>
 
-
+<i class="bi bi-list"></i>
         <script src="<?= ROOT_JS ?>jquery.min.js"></script>
         <script src="<?= ROOT_JS ?>sweetalert2@11.js"></script>
         <script src="<?= ROOT_JS ?>bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="<?= ROOT_JS ?>dataTables.js"></script>
         <script src="<?= ROOT_JS ?>dataTables.bootstrap5.js"></script>
         <script type="module" src="<?= ROOT_JS ?>ajax.js"></script>

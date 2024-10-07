@@ -15,5 +15,6 @@ function root()
 function redirect($path)
 {
     header("Location: " . "http://localhost/manninglist" . "/" . $path);
+    // header("Location: " . "http://localhost:3002" . "/" . $path);
     die();
 }

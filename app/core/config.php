@@ -10,3 +10,5 @@ define("ROOT", "http://localhost/manninglist");
 define("ROOT_CSS", "/manninglist/public/assets/css/");
 define("ROOT_JS", "/manninglist/public/assets/js/");
 define("ROOT_IMG", "/manninglist/public/assets/img/");
+define("ROOT_VIEW", "../app/view/");
+define("ROOT_CONTROLLER", "../app/controllers/");
